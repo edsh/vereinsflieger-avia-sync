@@ -1,0 +1,27 @@
+{
+    "name": "edsh/vereinsflieger-avia-sync",
+    "description": "Sync job from vereinsflieger to AME AVIA data",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Adrian Föder",
+            "email": "adrian@foeder.de"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@bitbucket.org:edsh/vereinsflieger-sdk.git"
+        }
+    ],
+    "require": {
+        "edsh/vereinsflieger-sdk-php": "dev-master",
+        "roave/security-advisories": "dev-master",
+        "symfony/console": "^3.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "LuftsportvereinBacknangHeiningen\\VereinsfliegerAviaSync\\": "src/"
+        }
+    }
+}
