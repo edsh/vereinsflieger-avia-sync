@@ -15,9 +15,13 @@
         }
     ],
     "require": {
+        "php": "^7.1",
         "edsh/vereinsflieger-sdk-php": "dev-master",
         "roave/security-advisories": "dev-master",
         "symfony/console": "^3.2"
+    },
+    "require-dev": {
+        "symfony/dotenv": "^3.3@dev"
     },
     "autoload": {
         "psr-4": {
