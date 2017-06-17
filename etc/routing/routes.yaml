@@ -1,0 +1,4 @@
+home_index:
+    path: '/'
+    defaults:
+        _controller: 'LuftsportvereinBacknangHeiningen\VereinsfliegerAviaSync\Controller\HomeController:indexAction'

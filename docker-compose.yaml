@@ -1,0 +1,18 @@
+version: '2'
+services:
+  nginx:
+    image: afoeder/nginx:symfony
+    ports:
+      - 8080:80
+      - 443:443
+    links:
+      - php:php
+    volumes:
+      - .:/var/www
+
+  php:
+    image: prooph/php:7.1-fpm
+    volumes:
+      - .:/var/www
+    environment:
+      - SYMFONY_ENV=dev

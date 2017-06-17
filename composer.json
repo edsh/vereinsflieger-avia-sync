@@ -8,24 +8,55 @@
             "email": "adrian@foeder.de"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@bitbucket.org:edsh/vereinsflieger-sdk.git"
-        }
-    ],
     "require": {
         "php": "^7.1",
         "edsh/vereinsflieger-sdk-php": "dev-master",
         "roave/security-advisories": "dev-master",
-        "symfony/console": "^3.2"
+        "symfony/asset": "^3.3",
+        "symfony/console": "^3.3",
+        "symfony/flex": "^1.0",
+        "symfony/framework-bundle": "^3.3",
+        "symfony/security-bundle": "^3.3",
+        "symfony/templating": "^3.3",
+        "symfony/twig-bundle": "^3.3",
+        "symfony/yaml": "^3.3"
     },
     "require-dev": {
-        "symfony/dotenv": "^3.3@dev"
+        "symfony/dotenv": "^3.3"
+    },
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
     },
     "autoload": {
         "psr-4": {
-            "LuftsportvereinBacknangHeiningen\\VereinsfliegerAviaSync\\": "src/"
+            "LuftsportvereinBacknangHeiningen\\VereinsfliegerAviaSync\\": "src/",
+            "App\\": "src/"
+        }
+    },
+    "scripts": {
+        "auto-scripts": {
+            "make cache-warmup": "script",
+            "assets:install --symlink --relative %WEB_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "conflict": {
+        "symfony/symfony": "*",
+        "symfony/twig-bundle": "<3.3",
+        "symfony/debug": "<3.3"
+    },
+    "extra": {
+        "symfony": {
+            "id": "01BJTYT6TN2E5G1SGPDJTPQF3G",
+            "allow-contrib": false
         }
     }
 }
