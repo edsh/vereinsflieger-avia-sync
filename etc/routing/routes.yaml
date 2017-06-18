@@ -2,3 +2,8 @@ home_index:
     path: '/'
     defaults:
         _controller: 'LuftsportvereinBacknangHeiningen\VereinsfliegerAviaSync\Controller\HomeController:indexAction'
+
+flights_download:
+    path: '/flights/download'
+    defaults:
+        _controller: 'LuftsportvereinBacknangHeiningen\VereinsfliegerAviaSync\Controller\HomeController:downloadFlightsForAmeAction'

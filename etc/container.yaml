@@ -3,3 +3,21 @@
 parameters:
 
 services:
+
+    'LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\CredentialsInterface':
+        class: 'LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\DefaultCredentials'
+        arguments:
+            - '%env(VF_USERNAME)%'
+            - '%env(VF_PASSWORD)%'
+
+    'LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\AccessTokenInterface':
+        class: LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\RemoteAccessToken
+        arguments:
+            - '@autowired.LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\ApiClient'
+
+    'LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\AuthenticatedAccessTokenInterface':
+        class: 'LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\RemoteAuthenticatedAccessToken'
+        arguments:
+            - '@autowired.LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\ApiClient'
+            - '@LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\CredentialsInterface'
+            - '@LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\AccessTokenInterface'
