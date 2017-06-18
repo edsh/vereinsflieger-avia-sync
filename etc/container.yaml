@@ -16,6 +16,7 @@ services:
             - '@autowired.LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\ApiClient'
 
     'LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\AuthenticatedAccessTokenInterface':
+        lazy: true
         class: 'LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\RemoteAuthenticatedAccessToken'
         arguments:
             - '@autowired.LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\ApiClient'

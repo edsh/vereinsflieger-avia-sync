@@ -1,5 +1,13 @@
 security:
 
+    providers:
+        in_memory:
+            memory:
+                users:
+                    "flugleiter":
+                        password: "%env(DEFAULT_FLUGLEITER_USER_PASSWORD)%"
+                        roles: 'ROLE_USER'
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
