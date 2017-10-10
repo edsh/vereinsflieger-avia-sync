@@ -1,7 +1,7 @@
 version: '2'
 services:
   nginx:
-    image: afoeder/nginx:symfony
+    image: prooph/nginx:symfony
     ports:
       - 8080:80
       - 443:443
