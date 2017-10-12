@@ -39,15 +39,28 @@
         <h3><i class="fa fa-chevron-right"></i> Flug-Exportdatei generieren</h3>
         <p>Dies erstellt eine Exportdatei aus den im Vereinsflieger gepflegten Flügen
             zum Import in AME Avia.</p>
-        <div class="row">
-            <div class="small-10 medium-4 large-3 columns">
-                <form method="POST" action="{{ path('flights_download') }}">
-                    <label>Datum
-                        <input type="date" name="date" value="{{ date ?: "now"|date("Y-m-d") }}"></label>
-                    <button type="submit" class="button">Her damit!</button>
-                </form>
+        <form method="POST" action="{{ path('flights_download') }}">
+            <div class="row">
+
+                <div class="small-6 medium-4 large-3 columns">
+                    <label>Datum von
+                        <input type="date" name="dateFrom" value="{{ dateFrom ?: "now"|date("Y-m-d") }}"></label>
+                </div>
+
+                <div class="small-6 medium-4 large-3 columns end">
+                    <label>Datum bis
+                        <input type="date" name="dateUntil" value="{{ dateUntil ?: "now"|date("Y-m-d") }}"></label>
+                </div>
             </div>
-        </div>
+
+            <div class="row columns">
+                <p class="callout secondary">
+                    <i class="fa fa-exlamation"></i> Achtung: jeder Tag dauert etwa 2..3 Sekunden zum Laden, dementsprechend
+                    kann der Gesamtprozess bei einer Woche bereits bei 21 Sekunden liegen.
+                </p>
+                <button class="button">Her damit!</button>
+            </div>
+        </form>
     </div>
 </section>
 

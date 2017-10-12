@@ -4,10 +4,12 @@ declare(strict_types=1);
 namespace LuftsportvereinBacknangHeiningen\VereinsfliegerAviaSync\Controller;
 
 use LuftsportvereinBacknangHeiningen\VereinsfliegerAviaSync\EdshAviaFlightDataAdapter;
+use LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Application\Flight\Data\FlightsData;
 use LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Application\Flight\FlightApiService;
 use LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\ApiClient;
 use LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\AuthenticatedAccessTokenInterface;
 use LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Port\Adapter\Service\AmeAviaFlightDataCsvAdapter;
+use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +17,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Component\Templating\EngineInterface;
 
 final class HomeController
@@ -68,7 +71,10 @@ final class HomeController
         return
             new Response(
                 $this->templatingEngine->render('home/index.html.twig',
-                ['date' => $request->query->get('date')])
+                [
+                    'dateFrom' => $request->query->get('dateFrom'),
+                    'dateUntil' => $request->query->get('dateUntil')
+                ])
             );
     }
 
@@ -80,33 +86,58 @@ final class HomeController
 
         $queryService =
             new FlightApiService($this->apiClient, $this->accessToken);
-        $day =
+
+        $dayFrom =
             \DateTimeImmutable::createFromFormat(
                 'Y-m-d',
-                $request->request->get('date')
+                $request->request->get('dateFrom')
             );
-        $flightsThatDay =
-            $queryService
-                ->allFlightsDataOfDay($day);
+        $dayUntil =
+            \DateTimeImmutable::createFromFormat(
+                'Y-m-d',
+                $request->request->get('dateUntil')
+            );
 
-        if (count($flightsThatDay) === 0) {
+        $period =
+            new \DatePeriod(
+                $dayFrom,
+                new \DateInterval('P1D'),
+                $dayUntil
+            );
+
+        $flights = new FlightsData();
+
+        foreach ($period as $day) {
+            $flightsThatDay =
+                $queryService
+                    ->allFlightsDataOfDay($day);
+            $flights = $flights->withFurther($flightsThatDay);
+        }
+
+        $stringlyDateRange =
+            ($dayUntil > $dayFrom
+                ? sprintf('%s--%s', $dayFrom->format('Y-m-d'), $dayUntil->format('Y-m-d'))
+                : $dayFrom->format('Y-m-d')
+            );
+
+        if (count($flights) === 0) {
             $request->getSession()->getFlashBag()->add('notice', 'Es wurden keine Flüge zum Export gefunden.');
             return
                 new RedirectResponse(
-                    $this->router->generate('home_index', ['date' => $request->request->get('date')])
+                    $this->router->generate('home_index', ['date' => $stringlyDateRange])
                 );
         }
 
         $responseBody =
-            array_map(function ($flightData) {
-                return
-                    (string)
-                    new EdshAviaFlightDataAdapter(
-                        new AmeAviaFlightDataCsvAdapter($flightData)
-                    );
-            },
-                iterator_to_array($flightsThatDay->getIterator())
-            );
+            array_map(
+                function ($flightData) {
+                    return
+                        (string)
+                        new EdshAviaFlightDataAdapter(
+                            new AmeAviaFlightDataCsvAdapter($flightData)
+                        );
+                }, iterator_to_array($flights->getIterator())
+                );
 
         $response =
             new Response(
@@ -124,7 +155,7 @@ final class HomeController
                 ->headers
                 ->makeDisposition(
                     ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-                    sprintf('vf-ame-%s.csv', $day->format('Y-m-d'))
+                    sprintf('vf-ame-%s.csv', $stringlyDateRange)
                 )
         );
 
