@@ -117,9 +117,6 @@ final class HomeController
 
         $flightsPerDay =
             array_map(function(\GuzzleHttp\Psr7\Response $response) {
-                if ((string)$response->getBody() === '') {
-                    dump($response);
-                }
                 return FlightsData::fromJsonRepresentation((string)$response->getBody());
             }, unwrap($promises));
 
