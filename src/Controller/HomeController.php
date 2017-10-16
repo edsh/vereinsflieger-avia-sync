@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace LuftsportvereinBacknangHeiningen\VereinsfliegerAviaSync\Controller;
 
+use GuzzleHttp\Pool;
+use GuzzleHttp\Promise\Promise;
+use function GuzzleHttp\Promise\unwrap;
 use LuftsportvereinBacknangHeiningen\VereinsfliegerAviaSync\EdshAviaFlightDataAdapter;
 use LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Application\Flight\Data\FlightsData;
 use LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Application\Flight\FlightApiService;
@@ -102,16 +105,28 @@ final class HomeController
             new \DatePeriod(
                 $dayFrom,
                 new \DateInterval('P1D'),
-                $dayUntil
+                $dayUntil->modify('+ 1 day')
             );
+
+        $promises = [];
+        foreach ($period as $day) {
+            $promises[] =
+                $queryService
+                    ->allFlightsDataOfDay($day);
+        }
+
+        $flightsPerDay =
+            array_map(function(\GuzzleHttp\Psr7\Response $response) {
+                if ((string)$response->getBody() === '') {
+                    dump($response);
+                }
+                return FlightsData::fromJsonRepresentation((string)$response->getBody());
+            }, unwrap($promises));
 
         $flights = new FlightsData();
 
-        foreach ($period as $day) {
-            $flightsThatDay =
-                $queryService
-                    ->allFlightsDataOfDay($day);
-            $flights = $flights->withFurther($flightsThatDay);
+        foreach ($flightsPerDay as $flightsDayData) {
+            $flights = $flights->withFurther($flightsDayData);
         }
 
         $stringlyDateRange =
