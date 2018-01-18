@@ -67,12 +67,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/edsh/vereinsflieger-sdk-php.git",
-                "reference": "1fc59069d2d2885a2c5c1c0c66aae0f45990185d"
+                "reference": "5d9f62e5d9de367bbc3edde4eed5b4232a9a8b01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/edsh/vereinsflieger-sdk-php/zipball/1fc59069d2d2885a2c5c1c0c66aae0f45990185d",
-                "reference": "1fc59069d2d2885a2c5c1c0c66aae0f45990185d",
+                "url": "https://api.github.com/repos/edsh/vereinsflieger-sdk-php/zipball/5d9f62e5d9de367bbc3edde4eed5b4232a9a8b01",
+                "reference": "5d9f62e5d9de367bbc3edde4eed5b4232a9a8b01",
                 "shasum": ""
             },
             "require": {
@@ -98,7 +98,7 @@
                 }
             ],
             "description": "PHP wrapper for the vereinsflieger.de REST API",
-            "time": "2018-01-18T09:24:26+00:00"
+            "time": "2018-01-18T09:40:05+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
