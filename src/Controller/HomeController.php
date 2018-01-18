@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace LuftsportvereinBacknangHeiningen\VereinsfliegerAviaSync\Controller;
 
-use GuzzleHttp\Pool;
-use GuzzleHttp\Promise\Promise;
 use function GuzzleHttp\Promise\unwrap;
 use LuftsportvereinBacknangHeiningen\VereinsfliegerAviaSync\EdshAviaFlightDataAdapter;
 use LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Application\Flight\Data\FlightsData;
@@ -12,7 +10,7 @@ use LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Application\Flight\Flig
 use LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\ApiClient;
 use LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\AuthenticatedAccessTokenInterface;
 use LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Port\Adapter\Service\AmeAviaFlightDataCsvAdapter;
-use Symfony\Component\HttpFoundation\HeaderBag;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +18,6 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Component\Templating\EngineInterface;
 
 final class HomeController
@@ -56,8 +53,7 @@ final class HomeController
         RouterInterface $router,
         ApiClient $apiClient,
         AuthenticatedAccessTokenInterface $accessToken
-    )
-    {
+    ) {
         $this->authorizationChecker = $authorizationChecker;
         $this->templatingEngine = $templatingEngine;
         $this->router = $router;

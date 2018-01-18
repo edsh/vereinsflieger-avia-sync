@@ -4,6 +4,9 @@ parameters:
 
 services:
 
+    'LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\ApiClient':
+        class: 'LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\ApiClient'
+
     'LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\CredentialsInterface':
         class: 'LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\DefaultCredentials'
         arguments:
@@ -13,12 +16,12 @@ services:
     'LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\AccessTokenInterface':
         class: LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\RemoteAccessToken
         arguments:
-            - '@autowired.LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\ApiClient'
+            - '@LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\ApiClient'
 
     'LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\AuthenticatedAccessTokenInterface':
         lazy: true
         class: 'LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\RemoteAuthenticatedAccessToken'
         arguments:
-            - '@autowired.LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\ApiClient'
+            - '@LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\ApiClient'
             - '@LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\CredentialsInterface'
             - '@LuftsportvereinBacknangHeiningen\VereinsfliegerDeSdk\Infrastructure\AccessTokenInterface'
