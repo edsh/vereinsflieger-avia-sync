@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e5aa0da91f4b1c100865ff79ec92d25",
+    "content-hash": "36a4f509e2dc577931ce964a234936d7",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -67,12 +67,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/edsh/vereinsflieger-sdk-php.git",
-                "reference": "1fd9e331b2bbbadcfc8656424b89a93f3fb98460"
+                "reference": "1fc59069d2d2885a2c5c1c0c66aae0f45990185d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/edsh/vereinsflieger-sdk-php/zipball/1fd9e331b2bbbadcfc8656424b89a93f3fb98460",
-                "reference": "1fd9e331b2bbbadcfc8656424b89a93f3fb98460",
+                "url": "https://api.github.com/repos/edsh/vereinsflieger-sdk-php/zipball/1fc59069d2d2885a2c5c1c0c66aae0f45990185d",
+                "reference": "1fc59069d2d2885a2c5c1c0c66aae0f45990185d",
                 "shasum": ""
             },
             "require": {
@@ -98,7 +98,7 @@
                 }
             ],
             "description": "PHP wrapper for the vereinsflieger.de REST API",
-            "time": "2018-01-17T17:09:11+00:00"
+            "time": "2018-01-18T09:24:26+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -2772,7 +2772,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.1"
+        "php": "^7.2"
     },
     "platform-dev": []
 }
